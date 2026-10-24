@@ -108,279 +108,233 @@ function book(inner) {
 }
 
 /* ------------------------------------------------------------- plates */
+/* Each plate is built from one of Lucy's shorts.  Where her description
+   carries the recipe, the right-hand page is hers ("Her recipe"); the
+   others are labelled as the general method. */
 const r1 = rng(7);
 
-function onion() {
-  const layer = (s) => `<path transform="translate(450 680) translate(0 160) scale(${s}) translate(0 -160)"
-    d="M0 -210 C90 -160 180 -80 170 20 C160 120 80 170 0 170 C-80 170 -160 120 -170 20 C-180 -80 -90 -160 0 -210 Z"/>`;
-  const knife = `M730 440 L730 760 L790 760 L790 610 Q788 505 730 440 Z`;
-  let cells = "";
-  const cell = (x, y, label, size, body) => {
-    cells += hand(x, y + 34, label, { size: 36, fill: INK }) + caps(x + 300, y + 32, size, { anchor: "end", size: 13 }) + body;
-  };
-  // half-moons
-  let moons = "", moonInk = "";
-  for (let i = 0; i < 5; i++) {
-    const cx = 1010 + i * 48, cy = 520, r = 52, ri = 41;
-    const d = `M${cx - r} ${cy} A${r} ${r} 0 0 1 ${cx + r} ${cy} L${cx + ri} ${cy} A${ri} ${ri} 0 0 0 ${cx - ri} ${cy} Z`;
-    moons += `<path d="${d}" fill="${C.butter}"/>`; moonInk += `<path d="${d}"/>`;
-  }
-  cell(950, 330, "half-moons", "~5 mm", wash(moons, 0.7) + ink(moonInk, 1.8));
-  // dice
-  let dice = "", diceInk = "";
-  for (let j = 0; j < 4; j++) for (let i = 0; i < 7; i++) {
-    const x = 1300 + i * 38 + r1() * 8, y = 400 + j * 34 + r1() * 8, a = (r1() - 0.5) * 30;
-    const sq = `<rect x="${x}" y="${y}" width="22" height="22" rx="3" transform="rotate(${a.toFixed(1)} ${x + 11} ${y + 11})"/>`;
-    dice += sq.replace("/>", ` fill="${C.butter}"/>`); diceInk += sq;
-  }
-  cell(1290, 330, "dice", "~6 mm", wash(dice, 0.65) + ink(diceInk, 1.6));
-  // mince
-  let mince = "";
-  for (let i = 0; i < 140; i++) {
-    const a = r1() * Math.PI * 2, rr = Math.sqrt(r1());
-    const x = 1110 + Math.cos(a) * 120 * rr, y = 740 + Math.sin(a) * 58 * rr, s = 4 + r1() * 4;
-    mince += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${s.toFixed(1)}" height="${s.toFixed(1)}" fill="${C.saffron}"/>`;
-  }
-  cell(950, 590, "mince", "~2 mm", wash(mince, 0.8) + ink(`<ellipse cx="1110" cy="742" rx="128" ry="64" stroke-dasharray="2 9" stroke-opacity=".35"/>`, 1.4));
-  // slivers
-  let sliv = "", slivInk = "";
-  for (let i = 0; i < 9; i++) {
-    const y = 680 + i * 15, x = 1310 + (i % 3) * 14, len = 220 + (i % 4) * 14;
-    const d = `M${x} ${y} q${len / 2} ${-26 + (i % 2) * 8} ${len} ${-4 + (i % 3) * 4}`;
-    sliv += `<path d="${d}" stroke="${C.butter}" stroke-width="9" fill="none"/>`; slivInk += `<path d="${d}"/>`;
-  }
-  cell(1290, 590, "slivers", "~3 mm", wash(sliv, 0.75) + ink(slivInk, 1.4));
+function numbered(rows, y0, gap) {
+  return rows.map(([t, ...lines], i) => {
+    const y = y0 + i * gap;
+    return wash(`<circle cx="975" cy="${y}" r="24" fill="${C.tomato}"/>`, 0.7) + ink(`<circle cx="975" cy="${y}" r="24"/>`, 1.6) +
+      serif(975, y + 11, String(i + 1), { size: 30, anchor: "middle" }) + serif(1020, y + 12, t, { size: 36 }) +
+      lines.map((l, k) => hand(1022, y + 48 + k * 32, l, { size: 28 })).join("");
+  }).join("");
+}
 
-  return head(1, "Knife work", "The Onion, Four Ways") +
-    wash(`<g fill="${C.saffron}">${layer(1)}</g><g fill="#fdf0cc">${layer(0.86)}</g>`, 0.75) +
-    ink(`${[1, 0.84, 0.68, 0.52, 0.36, 0.2].map(layer).join("")}
-      <path d="M450 470 q6 -26 -4 -48"/><path d="M450 850 q-14 26 -30 34 M452 850 q2 26 -4 40 M456 850 q14 22 30 30"/>`, 2.2) +
-    wash(`<path d="${knife}" fill="${C.steel}"/><rect x="734" y="760" width="52" height="145" rx="12" fill="${C.wood}"/>`, 0.6) +
-    ink(`<path d="${knife}"/><rect x="734" y="760" width="52" height="145" rx="12"/><circle cx="760" cy="805" r="4"/><circle cx="760" cy="862" r="4"/>`, 2.2) +
-    hand(500, 905, "← cut through the root,", { size: 26, rot: -3 }) + hand(522, 936, "it holds it together", { size: 26, rot: -3 }) +
-    cells +
-    hand(950, 880, "Claw grip, knuckles forward —", { fill: INK }) + hand(950, 915, "and let the knife do the work.", { fill: INK }) +
+function cheezits() {
+  let fill = "", lines = "";
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+    const x = 200 + c * 100 + (r1() - 0.5) * 8, y = 462 + r * 100 + (r1() - 0.5) * 8, a = ((r1() - 0.5) * 10).toFixed(1);
+    const sq = `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="78" height="78" rx="9" transform="rotate(${a} ${x + 39} ${y + 39})"/>`;
+    fill += sq.replace("/>", ` fill="#f2922b"/>`);
+    lines += sq + `<circle cx="${(x + 39).toFixed(1)}" cy="${(y + 39).toFixed(1)}" r="3.5" fill="${INK}"/>`;
+  }
+  const top = "M650 770 L800 730 L830 770 L680 810 Z", front = "M650 770 L680 810 L680 890 L650 850 Z", side = "M680 810 L830 770 L830 850 L680 890 Z";
+  const items = ["8 oz sharp cheddar", "4 tbsp cold unsalted butter", "½ tsp salt", "120 g (1 cup) all-purpose flour", "2 tbsp cold water"];
+  return head(1, "Made from scratch", "Homemade Cheez-Its") +
+    wash(fill, 0.75) + ink(lines, 1.8) +
+    wash(`<path d="${top}" fill="${C.butter}"/><path d="${front}" fill="${C.saffron}"/><path d="${side}" fill="${C.saffron}"/>`, 0.75) +
+    ink(`<path d="${top}"/><path d="${front}"/><path d="${side}"/>`, 2) +
+    hand(640, 680, "a hole in each one —", { size: 25, rot: -4 }) + hand(652, 710, "it stops them puffing", { size: 25, rot: -4 }) +
+    caps(960, 352, "Her recipe") +
+    items.map((t, i) => ink(`<rect x="962" y="${384 + i * 54}" width="18" height="18" rx="3"/>`, 1.6) + hand(996, 401 + i * 54, t, { size: 32, fill: INK })).join("") +
+    serif(960, 712, "350°F · 15–18 minutes", { size: 40 }) + hand(962, 756, "until deep golden brown.", { size: 30 }) +
+    hand(960, 890, "cold butter, cold water, cut small.", { fill: C.tomato, size: 30 }) +
     stamp(1);
 }
 
-function sear() {
-  const steak = "M400 640 C430 590 560 585 600 630 C640 675 610 760 540 775 C470 790 390 760 385 705 C382 675 390 655 400 640 Z";
-  const handle = "M308 668 L160 650 Q148 650 148 662 L148 690 Q148 702 160 702 L308 712 Z";
-  const leaves = [[712, 860], [728, 832], [744, 804], [760, 776], [776, 750]]
-    .map(([x, y], i) => `<ellipse cx="${x + (i % 2 ? 14 : -14)}" cy="${y}" rx="13" ry="7" transform="rotate(${i % 2 ? -30 : 30} ${x} ${y})"/>`).join("");
-  const curve = "M990 850 C1090 835 1160 610 1260 500 C1282 540 1302 566 1335 562 C1400 552 1450 524 1510 516";
-  return head(2, "Heat", "The Sear") +
-    wash(`<circle cx="480" cy="690" r="175" fill="#6b6862"/><path d="${handle}" fill="#6b6862"/>`, 0.32) +
-    wash(`<path d="${steak}" fill="${C.crust}"/>`, 0.75) +
-    wash(`<path d="${steak}" transform="translate(500 690) scale(.72) translate(-500 -690)" fill="${C.saffron}"/>`, 0.45) +
-    ink(`<circle cx="480" cy="690" r="175"/><circle cx="480" cy="690" r="150" stroke-opacity=".6"/><path d="${handle}"/>
-      <path d="${steak}"/><path d="M430 650 q20 -10 40 -4 M520 620 q24 4 40 16 M440 740 q30 14 60 10 M560 720 q16 -14 20 -34" stroke-width="1.4"/>
-      <path d="M400 500 q12 -12 0 -24 q-12 -12 0 -24 M480 490 q12 -12 0 -24 q-12 -12 0 -24 M560 500 q12 -12 0 -24 q-12 -12 0 -24" stroke-width="1.6" stroke-opacity=".7"/>`, 2.2) +
-    wash(`<g fill="${C.herb}">${leaves}</g>`, 0.75) + ink(`<path d="M700 885 Q740 820 790 745"/>${leaves}`, 1.5) +
-    hand(990, 380, "Don't move it.", { size: 36, fill: INK }) + hand(1190, 380, "It lets go when it's ready.", { size: 30 }) +
-    wash(`<rect x="992" y="430" width="528" height="110" fill="${C.saffron}"/>`, 0.4) +
-    hand(1005, 466, "maillard zone · 140°C+ · browning = flavour", { size: 25, fill: INK }) +
-    ink(`<path d="M990 420 L990 870 L1520 870"/><path d="M1510 862 L1522 870 L1510 878"/>`, 2) +
-    ink(`<path d="${curve}" stroke="${C.tomato}"/>`, 3.4, C.tomato) +
-    ink(`<path d="M1260 500 L1260 868" stroke-dasharray="3 10"/><circle cx="1260" cy="500" r="6"/><circle cx="1335" cy="562" r="6"/>`, 1.8) +
-    hand(1272, 720, "oil shimmers → food in", { size: 26 }) + hand(1345, 604, "temp dips — so preheat!", { size: 26 }) +
-    hand(1520, 904, "time", { anchor: "end", size: 26 }) + hand(972, 700, "pan temp", { size: 26, rot: -90, anchor: "middle" }) +
+function colaChicken() {
+  const wok = "M220 700 Q470 900 720 700 Z";
+  const wing = (x, y, a) => `<path transform="translate(${x} ${y}) rotate(${a})" d="M-48 -8 C-40 -26 -6 -24 6 -14 C20 -26 46 -22 50 -4 C54 14 30 22 8 14 C-6 24 -44 22 -48 -8 Z"/>`;
+  const wings = [[360, 735, -8], [470, 752, 6], [580, 735, -4], [420, 712, 12], [530, 712, -10]].map((w) => wing(...w)).join("");
+  let sesame = "";
+  for (let i = 0; i < 26; i++) sesame += `<ellipse cx="${(330 + r1() * 290).toFixed(0)}" cy="${(700 + r1() * 70).toFixed(0)}" rx="3" ry="1.6" transform="rotate(${(r1() * 180).toFixed(0)})" />`;
+  const bottle = "M790 430 L790 470 Q770 490 772 530 Q760 560 770 600 L772 640 L828 640 L830 600 Q840 560 828 530 Q830 490 810 470 L810 430 Z";
+  return head(2, "Made from scratch", "Coca-Cola Chicken") +
+    wash(`<path d="${wok}" fill="#6b6862"/>`, 0.3) + wash(`<g fill="${C.crust}">${wings}</g>`, 0.8) +
+    wash(`<path d="${bottle}" fill="#5a2f1c"/>`, 0.6) + wash(`<rect x="768" y="560" width="66" height="26" fill="${C.tomato}"/>`, 0.85) +
+    ink(`<path d="${wok}"/><path d="M205 700 L735 700"/><path d="M722 702 L830 690" stroke-width="9"/>${wings}
+      <path d="${bottle}"/><rect x="768" y="560" width="66" height="26"/>
+      <path d="M380 660 q-14 -24 0 -48 q14 -24 0 -48 M470 650 q-14 -24 0 -48 q14 -24 0 -48 M560 660 q-14 -24 0 -48 q14 -24 0 -48" stroke-width="1.6" stroke-opacity=".6"/>`, 2.2) +
+    `<g fill="#fff8ec" stroke="${INK}" stroke-width=".8">${sesame}</g>` +
+    hand(240, 900, "1.5 lb wings · 1 cup cola · ¼ cup light soy", { size: 26 }) +
+    hand(240, 932, "1 tbsp dark soy · 6 slices ginger · 2 green onions", { size: 26 }) +
+    caps(960, 352, "Her recipe") +
+    numbered([["Score + blanch", "two cuts a side; boil 2–3 min with ginger + wine"], ["Sear", "a little oil, medium-high, until lightly brown"],
+      ["Braise", "cola, both soys, ginger, onion — LOW, lid on,", "30 to 40 minutes"], ["Reduce", "lid off, heat up, until the sauce clings"]], 400, 126) +
+    hand(960, 905, "keep it low — the sugar burns fast.", { fill: C.tomato, size: 30 }) +
     stamp(2);
 }
 
-function vinaigrette() {
-  const jar = "M300 495 L540 495 Q556 500 556 520 L556 860 Q556 880 536 880 L314 880 Q294 880 294 860 L294 520 Q294 500 300 495 Z";
-  const wires = [-1, -0.5, 0, 0.5, 1].map((k) => `<path d="M700 720 C${700 + k * 80} 660 ${700 + k * 80} 500 700 470"/>`).join("");
-  let bubbles = "";
-  for (let i = 0; i < 16; i++) bubbles += `<circle cx="${(320 + r1() * 210).toFixed(0)}" cy="${(620 + r1() * 150).toFixed(0)}" r="${(3 + r1() * 6).toFixed(1)}"/>`;
-  return head(3, "Emulsion", "Vinaigrette by Ratio") +
-    wash(`<path d="${jar}" fill="${C.sky}"/>`, 0.18) +
-    wash(`<rect x="298" y="600" width="254" height="180" fill="${C.butter}"/><rect x="298" y="780" width="254" height="96" fill="${C.blush}"/>`, 0.7) +
-    wash(`<rect x="280" y="450" width="290" height="44" rx="8" fill="${C.tomato}"/>`, 0.75) +
-    ink(`<path d="${jar}"/><rect x="280" y="450" width="290" height="44" rx="8"/><path d="M300 600 L552 600 M300 780 L552 780" stroke-width="1.4"/>
-      <path d="M318 470 L548 470" stroke-dasharray="4 14" stroke-width="1.4"/>${bubbles}`, 2.2) +
-    `<path d="M322 530 L322 840" stroke="#fff" stroke-opacity=".7" stroke-width="7" stroke-linecap="round"/>` +
-    wash(`<rect x="690" y="720" width="20" height="180" rx="10" fill="${C.wood}"/>`, 0.7) +
-    ink(`<rect x="690" y="720" width="20" height="180" rx="10"/>${wires}`, 1.8) +
-    hand(600, 940, "oil on top, acid below — until you shake it", { size: 24, anchor: "middle" }) +
-    caps(960, 400, "The ratio") +
-    wash(`<rect x="960" y="430" width="480" height="70" fill="${C.butter}"/><rect x="1440" y="430" width="160" height="70" fill="${C.blush}"/>`, 0.8) +
-    ink(`<rect x="960" y="430" width="640" height="70"/><path d="M1440 430 L1440 500"/><path d="M1120 430 L1120 500 M1280 430 L1280 500" stroke-dasharray="3 8" stroke-width="1.3"/>`, 2) +
-    hand(1200, 545, "3 parts oil", { anchor: "middle", fill: INK, size: 32 }) + hand(1520, 545, "1 part acid", { anchor: "middle", fill: INK, size: 32 }) +
-    hand(960, 630, "+ a spoon of mustard — it's the glue", { size: 32 }) +
-    hand(960, 690, "+ salt, then taste. then taste again.", { size: 32 }) +
-    hand(960, 750, "+ a little honey if it bites back", { size: 32 }) +
-    serif(960, 860, "Taste it on a leaf, not a spoon.", { size: 36, italic: true }) +
+function yogurt() {
+  const jar = "M300 515 L540 515 Q556 520 556 540 L556 860 Q556 880 536 880 L314 880 Q294 880 294 860 L294 540 Q294 520 300 515 Z";
+  const cx = 1250, cy = 650, R = 150;
+  const node = (a) => [cx + Math.cos(a * Math.PI / 180) * R, cy + Math.sin(a * Math.PI / 180) * R];
+  const arrow = (a) => { const [x, y] = node(a), t = a + 90, r = (t * Math.PI) / 180, b = (d) => (d * Math.PI) / 180;
+    return `<path d="M${(x - Math.cos(r + b(30)) * 14).toFixed(1)} ${(y - Math.sin(r + b(30)) * 14).toFixed(1)} L${x.toFixed(1)} ${y.toFixed(1)} L${(x - Math.cos(r - b(30)) * 14).toFixed(1)} ${(y - Math.sin(r - b(30)) * 14).toFixed(1)}"/>`; };
+  const dots = [-90, 0, 90, 180].map((a) => { const [x, y] = node(a); return `<circle cx="${x}" cy="${y}" r="13"/>`; }).join("");
+  return head(3, "Made from scratch", "The Infinite Yogurt Glitch") +
+    wash(`<path d="${jar}" fill="${C.sky}"/>`, 0.16) + wash(`<rect x="298" y="610" width="254" height="266" fill="#fbf3dd"/>`, 0.9) +
+    wash(`<rect x="280" y="470" width="290" height="44" rx="8" fill="${C.sky}"/>`, 0.6) +
+    ink(`<path d="${jar}"/><rect x="280" y="470" width="290" height="44" rx="8"/><path d="M300 612 Q360 596 420 612 T552 610" stroke-width="1.5"/>
+      <path d="M470 600 L520 420" stroke-width="7"/><ellipse cx="462" cy="628" rx="26" ry="12"/>`, 2.2) +
+    `<path d="M322 550 L322 840" stroke="#fff" stroke-opacity=".7" stroke-width="7" stroke-linecap="round"/>` +
+    wash(`<rect x="712" y="560" width="22" height="280" rx="11" fill="#fff"/><circle cx="723" cy="852" r="22" fill="${C.tomato}"/><rect x="716" y="700" width="14" height="150" fill="${C.tomato}"/>`, 0.8) +
+    ink(`<rect x="712" y="540" width="22" height="300" rx="11"/><circle cx="723" cy="852" r="22"/><path d="M734 700 L752 700 M734 640 L746 640 M734 760 L746 760"/>`, 1.8) +
+    hand(760, 708, "110°F", { size: 28, fill: INK }) + hand(760, 738, "43°C", { size: 24 }) +
+    caps(960, 352, "Her recipe, on repeat") +
+    ink(`<circle cx="${cx}" cy="${cy}" r="${R}" stroke-dasharray="1 0"/>${[-45, 45, 135, 225].map(arrow).join("")}`, 2) +
+    wash(`<g fill="${C.saffron}">${dots}</g>`, 0.8) + ink(dots, 1.6) +
+    hand(cx, cy - R - 26, "4 cups milk", { anchor: "middle", fill: INK, size: 30 }) +
+    hand(cx + R + 22, cy - 6, "boil, then", { size: 28, fill: INK }) + hand(cx + R + 22, cy + 26, "cool to 110°F", { size: 28, fill: INK }) +
+    hand(cx, cy + R + 44, "+ 2 tbsp live yogurt", { anchor: "middle", fill: INK, size: 30 }) +
+    hand(cx - R - 22, cy - 6, "12–24 h", { anchor: "end", size: 28, fill: INK }) + hand(cx - R - 22, cy + 26, "somewhere warm", { anchor: "end", size: 28, fill: INK }) +
+    serif(cx, cy + 4, "yogurt!", { size: 42, anchor: "middle" }) + hand(cx, cy + 40, "keep 2 tbsp back…", { anchor: "middle", size: 24 }) +
+    hand(960, 890, "Instant Pot on yogurt, or the oven", { size: 26 }) + hand(960, 920, "with just the light switched on.", { size: 26 }) +
     stamp(3);
 }
 
-function panSauce() {
-  const pan = "M230 720 L640 720 Q632 800 590 812 L280 812 Q238 800 230 720 Z";
-  const handle = "M638 722 L812 694 Q824 694 824 706 L824 712 Q824 722 812 724 L640 746 Z";
-  const bottle = "M-14 -110 L14 -110 L14 -60 Q40 -40 40 0 L40 170 Q40 180 30 180 L-30 180 Q-40 180 -40 170 L-40 0 Q-40 -40 -14 -60 Z";
-  let fond = "";
-  for (let i = 0; i < 30; i++) fond += `<circle cx="${(270 + r1() * 340).toFixed(0)}" cy="${(735 + r1() * 60).toFixed(0)}" r="${(2 + r1() * 4).toFixed(1)}"/>`;
-  const steps = [["Brown", "sear, lift it out. keep the sticky bits."], ["Deglaze", "splash of wine or stock. scrape!"],
-    ["Reduce", "until it coats the back of a spoon."], ["Mount", "off the heat, swirl in cold butter."]];
-  const rows = steps.map(([t, n], i) => {
-    const y = 400 + i * 120;
-    return wash(`<circle cx="975" cy="${y}" r="24" fill="${C.tomato}"/>`, 0.7) + ink(`<circle cx="975" cy="${y}" r="24"/>`, 1.6) +
-      serif(975, y + 11, String(i + 1), { size: 30, anchor: "middle" }) + serif(1020, y + 12, t, { size: 38 }) + hand(1022, y + 52, n, { size: 28 });
-  }).join("");
-  return head(4, "Sauce", "The Pan Sauce") +
-    wash(`<path d="${pan}" fill="#6b6862"/><path d="${handle}" fill="#6b6862"/>`, 0.35) +
-    wash(`<ellipse cx="435" cy="722" rx="200" ry="20" fill="${C.crust}"/><g fill="${C.crust}">${fond}</g>`, 0.6) +
-    ink(`<path d="${pan}"/><path d="${handle}"/><ellipse cx="435" cy="720" rx="205" ry="22" stroke-opacity=".6"/>
-      <path d="M330 690 q-15 -25 0 -50 q15 -25 0 -50 M400 680 q-15 -25 0 -50 q15 -25 0 -50" stroke-width="1.6" stroke-opacity=".6"/>`, 2.2) +
-    `<g transform="translate(640 520) rotate(-135)">` +
-    wash(`<path d="${bottle}" fill="${C.plum}"/>`, 0.6) + wash(`<rect x="-34" y="30" width="68" height="70" fill="#fff6ea"/>`, 0.9) +
-    ink(`<path d="${bottle}"/><rect x="-34" y="30" width="68" height="70"/>`, 2) + `</g>` +
-    wash(`<path d="M560 600 Q520 640 500 716" stroke="${C.plum}" stroke-width="9" fill="none"/>`, 0.7) +
-    hand(250, 880, "that brown stuff on the bottom is called fond.", { size: 26 }) + hand(250, 912, "it is the whole point.", { size: 26 }) +
-    rows + hand(990, 905, "pinch of salt, squeeze of lemon. done.", { fill: INK }) +
+function rosti() {
+  let shreds = "";
+  for (let i = 0; i < 90; i++) {
+    const a = r1() * Math.PI * 2, rr = Math.sqrt(r1()) * 128, x = 470 + Math.cos(a) * rr, y = 690 + Math.sin(a) * rr, t = r1() * 180;
+    shreds += `<path transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) rotate(${t.toFixed(0)})" d="M-14 0 q14 -5 28 0"/>`;
+  }
+  const handle = "M308 668 L160 650 Q148 650 148 662 L148 690 Q148 702 160 702 L308 712 Z";
+  return head(4, "World Cup kitchen · Switzerland", "Rösti") +
+    wash(`<circle cx="470" cy="690" r="175" fill="#6b6862"/><path d="${handle}" fill="#6b6862"/>`, 0.3) +
+    wash(`<circle cx="470" cy="690" r="140" fill="${C.saffron}"/>`, 0.75) + wash(`<circle cx="470" cy="690" r="112" fill="${C.butter}"/>`, 0.6) +
+    ink(`<circle cx="470" cy="690" r="175"/><circle cx="470" cy="690" r="150" stroke-opacity=".5"/><path d="${handle}"/><circle cx="470" cy="690" r="140"/>`, 2.2) +
+    ink(shreds, 1.2, C.crust) +
+    wash(`<rect x="700" y="470" width="90" height="230" rx="10" fill="${C.steel}"/>`, 0.5) +
+    ink(`<rect x="700" y="470" width="90" height="230" rx="10"/><path d="M745 470 L745 430 M725 430 L765 430"/>
+      ${[0, 1, 2, 3, 4, 5, 6, 7].map((k) => `<path d="M716 ${495 + k * 25} q12 -8 24 0 M752 ${495 + k * 25} q12 -8 24 0" stroke-width="1.4"/>`).join("")}`, 2) +
+    hand(660, 760, "coarse side", { size: 26, rot: -4 }) +
+    caps(960, 352, "The method") +
+    numbered([["Grate", "starchy potatoes, coarse side"], ["Squeeze", "wring out every drop in a towel — really"],
+      ["Press", "into hot butter, flatten, then leave it"], ["Flip", "slide onto a plate, invert, brown again"]], 410, 118) +
+    hand(960, 905, "shatter-crisp outside, soft inside.", { fill: C.tomato, size: 30 }) +
     stamp(4);
 }
 
-function fridge() {
-  const egg = (x) => `<ellipse cx="${x}" cy="558" rx="16" ry="21"/>`;
-  const carrot = (x, y) => `<path d="M${x} ${y - 10} Q${x + 70} ${y - 8} ${x + 130} ${y} Q${x + 70} ${y + 8} ${x} ${y + 10} Q${x - 8} ${y} ${x} ${y - 10} Z"/>`;
-  const greens = [[490, 670], [515, 655], [540, 672], [505, 685], [530, 690]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="20"/>`).join("");
-  const boxes = [["Pick a base", "rice · noodles · toast · eggs", C.butter], ["Add something fresh", "greens · herbs · citrus", C.herb],
-    ["Add something crunchy", "nuts · seeds · crispy shallots", C.saffron], ["Sauce it", "plate 03 — or soy, chilli, lemon", C.blush],
-    ["Eat. Then write it down.", "what worked · what didn't · what's next", C.sky]];
-  const flow = boxes.map(([t, s, col], i) => {
-    const y = 340 + i * 110;
-    return wash(`<rect x="960" y="${y}" width="470" height="74" rx="14" fill="${col}"/>`, 0.4) +
-      ink(`<rect x="960" y="${y}" width="470" height="74" rx="14"/>` + (i < 4 ? `<path d="M1195 ${y + 78} L1195 ${y + 106} M1187 ${y + 98} L1195 ${y + 107} L1203 ${y + 98}"/>` : ""), 1.8) +
-      serif(982, y + 34, t, { size: 30 }) + text(982, y + 60, s, { font: "Newsreader", size: 17, fill: SOFT });
-  }).join("");
-  return head(5, "Improvisation", "The Fridge Raid") +
-    wash(`<rect x="318" y="458" width="284" height="424" fill="${C.sky}"/>`, 0.28) +
-    wash(`<path d="M300 446 L200 476 L200 870 L300 896 Z" fill="${C.sky}"/>`, 0.18) +
-    wash(`<g fill="#fff3d9">${[350, 386, 422, 458].map(egg).join("")}</g>`, 0.9) +
-    wash(`<rect x="500" y="512" width="50" height="66" fill="${C.tomato}"/><path d="M352 698 A30 30 0 0 1 412 698 Z" fill="${C.butter}"/>`, 0.6) +
-    wash(`<g fill="${C.herb}">${greens}</g><g fill="${C.carrot}">${carrot(340, 760)}${carrot(350, 782)}</g><rect x="500" y="760" width="70" height="36" fill="${C.butter}"/>`, 0.7) +
-    ink(`<rect x="300" y="440" width="320" height="460" rx="16"/><rect x="318" y="458" width="284" height="424" rx="6" stroke-opacity=".6"/>
-      <path d="M318 580 L602 580 M318 700 L602 700 M318 800 L602 800"/><path d="M300 446 L200 476 L200 870 L300 896"/>
-      <path d="M210 600 L290 590 M210 760 L290 760"/><rect x="225" y="540" width="20" height="56" rx="4"/><rect x="255" y="530" width="22" height="64" rx="4"/>
-      ${[350, 386, 422, 458].map(egg).join("")}<rect x="500" y="512" width="50" height="66" rx="4"/><path d="M500 526 L550 526"/>
-      <path d="M352 698 A30 30 0 0 1 412 698 Z"/><path d="M382 698 L382 672 M382 698 L362 678 M382 698 L402 678" stroke-width="1.2"/>
-      ${greens}${carrot(340, 760)}${carrot(350, 782)}<rect x="500" y="760" width="70" height="36" rx="3"/>
-      <rect x="330" y="815" width="260" height="55" rx="6"/><path d="M430 832 L490 832"/>`, 2) +
-    hand(648, 470, "tuesday, 8pm.", { size: 28, rot: -4 }) + hand(652, 506, "no plan. let's go.", { size: 28, rot: -4 }) +
-    flow + hand(1452, 420, "no recipe", { size: 28, rot: -6 }) + hand(1458, 452, "required.", { size: 28, rot: -6 }) +
+function plov() {
+  const pot = "M230 560 L710 560 Q700 880 470 890 Q240 880 230 560 Z";
+  const layers = [[C.crust, 770, 125], [C.carrot, 690, 80], [C.cream, 590, 100]];
+  let carrots = "", rice = "";
+  for (let i = 0; i < 40; i++) carrots += `<rect x="${(250 + r1() * 420).toFixed(0)}" y="${(700 + r1() * 55).toFixed(0)}" width="30" height="5" transform="rotate(${((r1() - 0.5) * 50).toFixed(0)} 450 720)"/>`;
+  for (let i = 0; i < 90; i++) rice += `<ellipse cx="${(250 + r1() * 430).toFixed(0)}" cy="${(600 + r1() * 80).toFixed(0)}" rx="5" ry="2" transform="rotate(${(r1() * 180).toFixed(0)} 450 640)"/>`;
+  const swatch = [[C.crust, "meat + onions, browned hard"], [C.carrot, "carrots, in thick matchsticks"], [C.cream, "rice, spread flat — no stirring"], ["#fff6e4", "a whole head of garlic, tucked in"]];
+  return head(5, "World Cup kitchen · Uzbekistan", "Uzbek Plov") +
+    `<defs><clipPath id="potIn"><path d="${pot}"/></clipPath></defs>` +
+    `<g clip-path="url(#potIn)">` + wash(layers.map(([c, y, h]) => `<rect x="220" y="${y}" width="500" height="${h}" fill="${c}"/>`).join(""), 0.65) +
+    wash(`<g fill="${C.carrot}">${carrots}</g>`, 0.8) + ink(rice, 1, SOFT) + `</g>` +
+    wash(`<circle cx="470" cy="630" r="40" fill="#fff6e4"/>`, 0.95) +
+    ink(`<path d="${pot}"/><path d="M215 560 L725 560"/><path d="M230 600 Q180 600 180 640 M710 600 Q760 600 760 640"/>
+      <circle cx="470" cy="630" r="40"/><path d="M470 590 L470 670 M450 596 Q440 630 452 666 M490 596 Q500 630 488 666"/>`, 2.2) +
+    hand(470, 530, "built bottom-up, like a lasagne", { anchor: "middle", size: 26 }) +
+    caps(960, 352, "The method · layers") +
+    swatch.map(([c, t], i) => wash(`<rect x="962" y="${392 + i * 76}" width="44" height="34" rx="6" fill="${c}"/>`, 0.85) +
+      ink(`<rect x="962" y="${392 + i * 76}" width="44" height="34" rx="6"/>`, 1.6) + hand(1024, 418 + i * 76, `${i + 1} · ${t}`, { size: 31, fill: INK })).join("") +
+    hand(962, 740, "+ cumin, salt, and enough water to just cover.", { size: 29 }) +
+    serif(960, 830, "Lid on, heat low, let the steam finish it.", { size: 32, italic: true }) +
     stamp(5);
 }
 
-function eggs() {
-  const xs = [370, 640, 1120, 1390], cy = 650;
-  const shell = (cx) => `M${cx} ${cy - 125} C${cx + 70} ${cy - 125} ${cx + 95} ${cy - 20} ${cx + 95} ${cy + 25} C${cx + 95} ${cy + 90} ${cx + 50} ${cy + 120} ${cx} ${cy + 120} C${cx - 50} ${cy + 120} ${cx - 95} ${cy + 90} ${cx - 95} ${cy + 25} C${cx - 95} ${cy - 20} ${cx - 70} ${cy - 125} ${cx} ${cy - 125} Z`;
-  const labels = ["6 min", "7 min", "8 min", "10 min"], notes = ["runny · for toast", "jammy · for ramen", "soft · for salads", "set · for sandwiches"];
-  const yolks = [
-    `<circle cx="${xs[0]}" cy="${cy + 20}" r="50" fill="#f27a1c"/><path d="M${xs[0] - 12} ${cy + 64} Q${xs[0] - 16} ${cy + 112} ${xs[0] - 4} ${cy + 152} Q${xs[0] + 10} ${cy + 166} ${xs[0] + 18} ${cy + 150} Q${xs[0] + 22} ${cy + 110} ${xs[0] + 16} ${cy + 62} Z" fill="#f27a1c"/>`,
-    `<circle cx="${xs[1]}" cy="${cy + 20}" r="50" fill="#f39a2d"/><circle cx="${xs[1]}" cy="${cy + 20}" r="30" fill="#f07b1f"/>`,
-    `<circle cx="${xs[2]}" cy="${cy + 20}" r="50" fill="#f6c453"/><circle cx="${xs[2]}" cy="${cy + 20}" r="24" fill="#f39a2d"/>`,
-    `<circle cx="${xs[3]}" cy="${cy + 20}" r="50" fill="#f4d675"/>`,
-  ];
-  return head(6, "Timing", "The Egg Clock") +
-    wash(xs.map((x) => `<path d="${shell(x)}" fill="${C.cream}" transform="translate(6 8)"/>`).join(""), 0.35) +
-    xs.map((x) => `<path d="${shell(x)}" fill="#fffcf4"/>`).join("") +
-    wash(yolks.join(""), 0.85) +
-    ink(xs.map((x) => `<path d="${shell(x)}"/><circle cx="${x}" cy="${cy + 20}" r="50" stroke-width="1.4"/>`).join(""), 2.2) +
-    xs.map((x, i) => serif(x, 498, labels[i], { size: 44, anchor: "middle" }) + hand(x, 818, notes[i], { anchor: "middle", size: 29 })).join("") +
-    ink(`<path d="M250 870 L1500 870 M1488 862 L1500 870 L1488 878"/>${xs.map((x) => `<path d="M${x} 862 L${x} 878"/>`).join("")}`, 1.8) +
-    hand(960, 345, "water at a rolling boil first. eggs in. timer on.", { fill: INK }) +
-    hand(960, 385, "then straight into ice for 2 minutes.", { fill: INK }) +
+function butter() {
+  const jar = "M250 515 L450 515 Q466 520 466 540 L466 860 Q466 880 446 880 L264 880 Q244 880 244 860 L244 540 Q244 520 250 515 Z";
+  const top = "M560 700 L760 660 L820 700 L620 740 Z", front = "M560 700 L620 740 L620 840 L560 800 Z", side = "M620 740 L820 700 L820 800 L620 840 Z";
+  return head(6, "Made from scratch", "Cultured Butter at Home") +
+    wash(`<path d="${jar}" fill="${C.sky}"/>`, 0.16) + wash(`<rect x="248" y="600" width="214" height="276" fill="#fbf3dd"/>`, 0.9) +
+    ink(`<path d="${jar}"/><path d="M250 600 Q300 588 350 600 T462 598" stroke-width="1.4"/>`, 2.2) +
+    hand(355, 700, "cream", { anchor: "middle", size: 30 }) + hand(355, 734, "+ culture", { anchor: "middle", size: 26 }) +
+    ink(`<path d="M490 700 Q520 690 540 700 M528 690 L542 700 L528 710"/>`, 2) +
+    wash(`<path d="${top}" fill="${C.butter}"/><path d="${front}" fill="${C.saffron}"/><path d="${side}" fill="${C.butter}"/>`, 0.85) +
+    wash(`<path d="M630 742 L810 706 L810 760 L630 796 Z" fill="#fff6ea"/>`, 0.7) +
+    ink(`<path d="${top}"/><path d="${front}"/><path d="${side}"/><path d="M630 742 L810 706 L810 760 L630 796 Z" stroke-width="1.4"/>`, 2) +
+    hand(720, 775, "BUTTER", { anchor: "middle", size: 22, rot: -11, fill: C.tomato }) +
+    hand(560, 900, "…and a glass of real buttermilk", { size: 26 }) +
+    caps(960, 352, "The method") +
+    numbered([["Culture", "cream + a spoon of live yogurt or buttermilk"], ["Wait", "a warm day: it thickens and turns tangy"],
+      ["Churn", "whip past whipped cream until it breaks"], ["Wash", "squeeze, rinse in ice water, salt it"]], 410, 118) +
+    hand(960, 905, "tastes like a French bakery.", { fill: C.tomato, size: 30 }) +
     stamp(6);
 }
 
-function balance() {
-  const cx = 470, cy = 700, R = 190, axes = ["Salt", "Sour", "Sweet", "Bitter", "Umami"];
-  const pt = (k, v) => { const a = (-90 + 72 * k) * Math.PI / 180; return [cx + Math.cos(a) * R * v, cy + Math.sin(a) * R * v]; };
-  const poly = (vals) => vals.map((v, k) => pt(k, v).map((n) => n.toFixed(1)).join(",")).join(" ");
-  const before = [0.75, 0.2, 0.35, 0.3, 0.55], after = [0.66, 0.66, 0.45, 0.3, 0.72];
-  const grid = [0.33, 0.66, 1].map((v) => `<polygon points="${poly([v, v, v, v, v])}" stroke-opacity=".35" stroke-width="1.2"/>`).join("") +
-    axes.map((_, k) => { const [x, y] = pt(k, 1); return `<path d="M${cx} ${cy} L${x.toFixed(1)} ${y.toFixed(1)}" stroke-opacity=".3" stroke-width="1.2"/>`; }).join("");
-  const lab = axes.map((a, k) => {
-    const [x, y] = pt(k, 1.17), anchor = k === 0 ? "middle" : k < 3 ? "start" : "end";
-    return serif(x, y + (k === 0 ? 0 : 12), a, { size: 32, anchor });
-  }).join("");
-  const qs = [["Tastes flat?", "add acid — lemon, vinegar, something pickled."], ["Too sharp?", "soften it with fat, or a pinch of sugar."],
-    ["Too salty?", "acid first, then bulk it out."], ["Too heavy?", "something fresh: herbs, leaves, crunch."]];
-  const seg = [0, 60, 120, 180, 240, 300].map((a) => { const r = a * Math.PI / 180; return `<path d="M1540 410 L${(1540 + Math.cos(r) * 38).toFixed(1)} ${(410 + Math.sin(r) * 38).toFixed(1)}"/>`; }).join("");
-  return head(7, "Seasoning", "Balancing a Dish") +
-    ink(grid, 1.4) +
-    wash(`<polygon points="${poly(after)}" fill="${C.tomato}"/>`, 0.5) +
-    ink(`<polygon points="${poly(before)}" stroke-dasharray="4 9" stroke-opacity=".7"/>`, 2) +
-    ink(`<polygon points="${poly(after)}"/>${after.map((v, k) => { const [x, y] = pt(k, v); return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="${INK}"/>`; }).join("")}`, 2.2) +
-    lab +
-    ink(`<path d="M600 452 L632 452" stroke-dasharray="4 7"/>`, 2) + hand(642, 460, "first taste", { size: 24 }) +
-    wash(`<rect x="600" y="478" width="32" height="18" fill="${C.tomato}"/>`, 0.6) + hand(642, 494, "+ a squeeze of lemon", { size: 24 }) +
-    qs.map(([q, a], i) => serif(960, 405 + i * 120, q, { size: 38 }) + hand(962, 447 + i * 120, a, { size: 29 })).join("") +
-    wash(`<circle cx="1540" cy="410" r="44" fill="${C.butter}"/>`, 0.85) + ink(`<circle cx="1540" cy="410" r="44"/><circle cx="1540" cy="410" r="38" stroke-width="1.2"/>${seg}`, 1.6) +
-    caps(962, 900, "Taste · adjust · taste again", { size: 14 }) +
+function anatomy() {
+  const xs = [330, 630, 1130, 1430], y0 = 480, w = 200, h = 350;
+  const phone = (cx) => `<rect x="${cx - w / 2}" y="${y0}" width="${w}" height="${h}" rx="28"/><rect x="${cx - 26}" y="${y0 + 12}" width="52" height="9" rx="4.5"/>`;
+  const labels = ["The hook", "The cook", "The taste", "The recipe"], times = ["0:00", "0:03", "0:20", "description"];
+  const steam = (x, y) => `<path d="M${x} ${y} q-10 -18 0 -36 q10 -18 0 -36"/>`;
+  const inside =
+    hand(xs[0], 600, "this cake", { anchor: "middle", size: 34, fill: INK }) + hand(xs[0], 640, "cost HOW", { anchor: "middle", size: 34, fill: INK }) +
+    hand(xs[0], 680, "MUCH???", { anchor: "middle", size: 40, fill: C.tomato }) +
+    wash(`<ellipse cx="${xs[1]}" cy="700" rx="70" ry="22" fill="#6b6862"/><ellipse cx="${xs[1]}" cy="694" rx="52" ry="14" fill="${C.saffron}"/>`, 0.6) +
+    ink(`<ellipse cx="${xs[1]}" cy="700" rx="70" ry="22"/><path d="M${xs[1] + 68} 700 L${xs[1] + 92} 692"/>${steam(xs[1] - 20, 668)}${steam(xs[1] + 18, 668)}`, 2) +
+    ink(`<path d="M${xs[2] - 6} 560 L${xs[2] - 6} 720 M${xs[2] - 22} 560 L${xs[2] - 22} 610 Q${xs[2] - 22} 628 ${xs[2] - 6} 630 Q${xs[2] + 10} 628 ${xs[2] + 10} 610 L${xs[2] + 10} 560 M${xs[2] - 6} 560 L${xs[2] - 6} 610"/>
+      <path d="M${xs[2] + 50} 590 l8 -8 M${xs[2] + 62} 610 l12 0 M${xs[2] - 60} 590 l-8 -8"/>`, 2) +
+    wash(`<circle cx="${xs[2] - 6}" cy="548" r="14" fill="${C.saffron}"/>`, 0.8) +
+    hand(xs[2], 780, "…okay wow.", { anchor: "middle", size: 30, fill: INK }) +
+    ink(`<rect x="${xs[3] - 80}" y="570" width="160" height="200" stroke="none"/>` + [0, 1, 2, 3, 4, 5].map((k) => `<path d="M${xs[3] - 70} ${590 + k * 32} L${xs[3] + (k % 3 === 2 ? 20 : 70)} ${590 + k * 32}"/>`).join(""), 2) +
+    caps(xs[3] - 70, 560, "ingredients", { size: 12, ls: 2 });
+  return head(7, "How she makes them", "Anatomy of a Lucy Short") +
+    xs.map((x) => wash(`<rect x="${x - w / 2}" y="${y0}" width="${w}" height="${h}" rx="28" fill="${C.sky}"/>`, 0.14)).join("") +
+    ink(xs.map(phone).join(""), 2.2) + inside +
+    xs.map((x, i) => serif(x, 462, labels[i], { size: 30, anchor: "middle" }) + caps(x, 868, times[i], { anchor: "middle", size: 14 })).join("") +
+    ink(`<path d="M230 900 L1500 900 M1488 892 L1500 900 L1488 908"/>`, 1.6) +
+    hand(960, 345, "8 to 36 seconds, start to finish.", { fill: INK }) +
+    hand(960, 385, "no fluff. often, the full recipe waits below.", { size: 28 }) +
     stamp(7);
 }
 
-function dough() {
-  const bowl = "M240 720 L700 720 Q690 860 470 880 Q250 860 240 720 Z";
-  const dome = "M300 722 Q330 580 470 575 Q610 580 640 722 Z";
-  let flour = "";
-  for (let i = 0; i < 70; i++) flour += `<circle cx="${(230 + r1() * 480).toFixed(0)}" cy="${(520 + r1() * 70).toFixed(0)}" r="${(1 + r1() * 2.4).toFixed(1)}"/>`;
-  const grains = [0, 1, 2, 3, 4, 5].map((i) => {
-    const t = i / 5, x = 790 - t * 40, y = 620 + t * 110;
-    return `<ellipse cx="${x - 10}" cy="${y}" rx="7" ry="13" transform="rotate(-30 ${x - 10} ${y})"/><ellipse cx="${x + 10}" cy="${y + 6}" rx="7" ry="13" transform="rotate(10 ${x + 10} ${y + 6})"/>`;
+function worldCup() {
+  const stamps = [["Spain", "tortilla"], ["Belgium", "carbonnade"], ["France", "coq au vin"], ["Switzerland", "rösti"],
+    ["Egypt", "national dish"], ["Uzbekistan", "plov"], ["S. Korea", "bibimbap"], ["Norway", "fiskesuppe"],
+    ["Iraq", "dolma"], ["Sweden", "meatballs"], ["Brazil", "brigadeiro"], ["Trinidad", "fried chicken"]];
+  const cols = [C.tomato, C.herb, C.saffron, C.sky, C.plum];
+  const grid = stamps.map(([c, d], i) => {
+    const x = 960 + (i % 4) * 160, y = 330 + Math.floor(i / 4) * 160, a = ((r1() - 0.5) * 10).toFixed(1), col = cols[i % 5];
+    const round = i % 3 === 1;
+    const shape = round ? `<circle cx="${x + 70}" cy="${y + 66}" r="64"/>` : `<rect x="${x + 4}" y="${y + 6}" width="132" height="120" rx="10"/>`;
+    return `<g transform="rotate(${a} ${x + 70} ${y + 66})">` + wash(shape.replace("/>", ` fill="${col}"/>`), 0.28) +
+      ink(shape.replace("/>", ` stroke-dasharray="${round ? "5 6" : "1 0"}"/>`), 1.8, col) +
+      caps(x + 70, y + 54, c, { anchor: "middle", size: 12, ls: 1.6, fill: INK }) + hand(x + 70, y + 90, d, { anchor: "middle", size: 24, fill: INK }) + `</g>`;
   }).join("");
-  const rows = [["Bagel", 58], ["Sandwich loaf", 64], ["Baguette", 68], ["Ciabatta", 78], ["Focaccia", 82]];
-  const mix = (a, b, t) => "#" + [0, 2, 4].map((o) => Math.round(parseInt(a.slice(1 + o, 3 + o), 16) * (1 - t) + parseInt(b.slice(1 + o, 3 + o), 16) * t).toString(16).padStart(2, "0")).join("");
-  const bars = rows.map(([n, v], i) => {
-    const y = 430 + i * 80, w = v * 5;
-    return serif(960, y + 30, n, { size: 32 }) +
-      wash(`<rect x="1180" y="${y}" width="${w}" height="40" fill="${mix(C.butter, C.sky, i / 4)}"/>`, 0.75) +
-      ink(`<rect x="1180" y="${y}" width="${w}" height="40"/>`, 1.8) +
-      text(1180 + w + 10, y + 28, v + "%", { font: "Newsreader", size: 19, fill: INK });
-  }).join("");
-  return head(8, "Baking", "Dough by Hydration") +
-    wash(`<path d="${bowl}" fill="${C.sky}"/>`, 0.45) + wash(`<path d="${dome}" fill="${C.cream}"/>`, 0.8) +
-    ink(`<path d="${bowl}"/><ellipse cx="470" cy="720" rx="230" ry="22"/><path d="${dome}"/>
-      <path d="M380 660 q40 -30 90 -24 M420 700 q50 -24 110 -10" stroke-width="1.4" stroke-opacity=".6"/>`, 2.2) +
-    `<g fill="#b9a68a" opacity=".55">${flour}</g>` +
-    wash(`<g fill="${C.saffron}">${grains}</g>`, 0.7) + ink(`<path d="M800 600 Q770 760 740 900"/>${grains}`, 1.5) +
-    hand(960, 370, "hydration = water ÷ flour", { size: 36, fill: INK }) + bars +
-    hand(960, 880, "wetter dough → bigger holes, stickier hands.", { fill: INK }) +
+  const pins = [[400, 560], [430, 600], [470, 585], [520, 640], [560, 700], [600, 600], [380, 720], [340, 640], [500, 770], [640, 680]];
+  return head(8, "World Cup kitchen", "A World Cup of Dinners") +
+    wash(`<circle cx="470" cy="680" r="200" fill="${C.sky}"/>`, 0.4) +
+    wash(`<path d="M330 600 q40 -40 90 -20 q30 30 80 10 q40 30 10 70 q-50 10 -70 50 q-40 0 -60 -40 q-60 -20 -50 -70 Z M520 720 q50 -20 90 20 q0 50 -40 70 q-50 -10 -50 -90 Z" fill="${C.herb}"/>`, 0.5) +
+    ink(`<circle cx="470" cy="680" r="200"/><ellipse cx="470" cy="680" rx="90" ry="200" stroke-opacity=".4"/><path d="M270 680 L670 680 M290 600 L650 600 M290 760 L650 760" stroke-opacity=".4"/>`, 2) +
+    pins.map(([x, y]) => wash(`<circle cx="${x}" cy="${y - 18}" r="9" fill="${C.tomato}"/>`, 0.9) + ink(`<circle cx="${x}" cy="${y - 18}" r="9"/><path d="M${x} ${y - 9} L${x} ${y}"/>`, 1.6)).join("") +
+    hand(470, 925, "one country at a time.", { anchor: "middle", size: 28 }) +
+    grid + hand(960, 905, "…and counting.", { fill: C.tomato, size: 30 }) +
     stamp(8);
 }
 
-function carrots() {
-  const carrot = (x, y, a, len, burnt) => {
-    const d = `M0 -13 Q${len * 0.5} -11 ${len} 0 Q${len * 0.5} 11 0 13 Q-8 0 0 -13 Z`;
-    const g = `transform="translate(${x} ${y}) rotate(${a})"`;
-    return { fill: `<path ${g} d="${d}" fill="${C.carrot}"/>`, burn: burnt ? `<path ${g} d="M4 -10 Q${len * 0.3} -12 ${len * 0.55} -6 M10 9 Q${len * 0.4} 12 ${len * 0.7} 4" stroke="${C.crust}" stroke-width="8" fill="none"/>` : "", ink: `<path ${g} d="${d}"/><path ${g} d="M${len * 0.3} -9 l4 8 M${len * 0.55} -7 l3 7" stroke-width="1.2"/>` };
-  };
-  const A = [[240, 590, 8, 190], [250, 660, -4, 200], [235, 730, 6, 185], [250, 800, -2, 195]].map(([x, y, a, l]) => carrot(x, y, a, l, false));
-  const B = [[540, 590, -6, 190], [530, 660, 4, 200], [545, 730, -3, 185], [535, 800, 5, 195]].map(([x, y, a, l]) => carrot(x, y, a, l, true));
-  const all = [...A, ...B];
-  const dots = (x, y, n) => [0, 1, 2, 3, 4].map((i) => `<circle cx="${x + i * 26}" cy="${y}" r="8"${i < n ? ` fill="${C.tomato}" fill-opacity=".8"` : ""}/>`).join("");
-  const scores = [["sweetness", 3, 5], ["tenderness", 5, 3], ["char", 2, 4]];
-  return head(9, "Experiment", "Roast Carrots, Two Ways") +
-    wash(`<rect x="200" y="530" width="600" height="350" rx="14" fill="#6b6862"/>`, 0.22) +
-    wash(all.map((c) => c.fill).join(""), 0.75) + wash(all.map((c) => c.burn).join(""), 0.6) +
-    ink(`<rect x="200" y="530" width="600" height="350" rx="14"/><rect x="214" y="544" width="572" height="322" rx="8" stroke-opacity=".5"/>
-      <path d="M500 548 L500 862" stroke-dasharray="6 10"/>${all.map((c) => c.ink).join("")}`, 2) +
-    hand(350, 508, "A · 200°C", { anchor: "middle", size: 34, fill: INK }) + hand(650, 508, "B · 230°C", { anchor: "middle", size: 34, fill: INK }) +
-    hand(500, 932, "same tray, same oil, same salt, 30 min", { anchor: "middle", size: 26 }) +
-    caps(960, 352, "Hypothesis") + hand(960, 392, "hotter oven = sweeter, darker edges.", { size: 32, fill: INK }) +
-    caps(960, 452, "Variable") + hand(960, 492, "oven temperature. nothing else.", { size: 32, fill: INK }) +
-    caps(960, 552, "Result") + serif(1205, 590, "A", { size: 28, anchor: "middle" }) + serif(1405, 590, "B", { size: 28, anchor: "middle" }) +
-    scores.map(([m, a, b], i) => hand(960, 632 + i * 42, m, { size: 30 }) + ink(dots(1153, 624 + i * 42, a) + dots(1353, 624 + i * 42, b), 1.6)).join("") +
-    caps(960, 790, "Next time") + hand(960, 830, "230°C — but cut them thicker.", { size: 32, fill: INK }) +
+function numbers() {
+  const top = [["where am i from?", 3.8], ["how much money did i make", 3.1], ["guess who cooked dinner", 1.2], ["all my friends lied to me", 1.1],
+    ["homemade soda", 0.58], ["Homemade Cheez Its", 0.531], ["my dog ate chocolate", 0.524], ["Eating in NYC for $20", 0.498]];
+  const fmt = (v) => (v >= 1 ? v.toFixed(1) + "M" : Math.round(v * 1000) + "K");
+  const bars = top.map(([t, v], i) => {
+    const y = 380 + i * 62, w = Math.round((v / 3.8) * 300);
+    return hand(960, y + 24, t, { size: 25, fill: INK }) +
+      wash(`<rect x="1240" y="${y}" width="${w}" height="30" fill="${i < 4 ? C.tomato : C.saffron}"/>`, 0.7) +
+      ink(`<rect x="1240" y="${y}" width="${w}" height="30"/>`, 1.6) + text(1250 + w, y + 22, fmt(v), { font: "Newsreader", size: 17, fill: INK });
+  }).join("");
+  const stat = (y, n, l) => serif(150, y, n, { size: 92 }) + caps(154, y + 34, l);
+  return head(9, "By the numbers", "Lucy, by the Numbers") +
+    stat(530, "84.1K", "subscribers") + stat(700, "77", "videos") + stat(870, "50.7M", "views") +
+    ink(`<path d="M520 470 q60 -30 120 10 M630 470 l12 10 l-14 8"/><path d="M560 830 l10 -24 l10 24 l24 10 l-24 10 l-10 24 l-10 -24 l-24 -10 Z" stroke-width="1.6"/>`, 2) +
+    hand(520, 530, "as of october 2026", { size: 26, rot: -3 }) +
+    caps(960, 352, "Most-watched shorts") + bars +
+    hand(960, 905, "the personal ones travel furthest.", { fill: C.tomato, size: 30 }) +
     stamp(9);
 }
 
 /* -------------------------------------------------------------- build */
 const PLATES = [
-  ["onion", onion], ["sear", sear], ["vinaigrette", vinaigrette], ["pan-sauce", panSauce], ["fridge-raid", fridge],
-  ["egg-clock", eggs], ["balance", balance], ["hydration", dough], ["roast-carrots", carrots],
+  ["cheez-its", cheezits], ["cola-chicken", colaChicken], ["yogurt", yogurt], ["rosti", rosti], ["plov", plov],
+  ["cultured-butter", butter], ["anatomy", anatomy], ["world-cup", worldCup], ["numbers", numbers],
 ];
 const CHROME = process.env.CHROME || [
   "C:/Program Files/Google/Chrome/Application/chrome.exe",

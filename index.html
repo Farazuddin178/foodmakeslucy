@@ -3,15 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lucy Makes Food — techniques, not recipes</title>
+<title>Lucy Makes Food — her shorts, in a sketchbook</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="A cooking notebook by Lucy: kitchen techniques you can improvise with, tested like a data analyst would.">
-<meta property="og:title" content="Lucy Makes Food — techniques, not recipes">
-<meta property="og:description" content="Learn the move, not the measurements. A sketchbook of kitchen techniques and experiments.">
-<meta property="og:image" content="assets/plates/balance.webp">
+<meta name="description" content="Lucy makes food: a World Cup of dinners, snacks made from scratch, and a little kitchen chaos — her YouTube shorts, sketched into a notebook.">
+<meta property="og:title" content="Lucy Makes Food — her shorts, in a sketchbook">
+<meta property="og:description" content="Her shorts, sketched into a notebook: national dishes, snacks from scratch, and the numbers behind them.">
+<meta property="og:image" content="assets/plates/anatomy.webp">
 <meta name="theme-color" content="#f5eee1">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='12' fill='%23e8553e'/%3E%3Ctext x='32' y='46' font-family='Georgia,serif' font-size='40' text-anchor='middle' fill='%23fff6ea'%3EL%3C/text%3E%3C/svg%3E">
 <link rel="preload" href="assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://i.ytimg.com">
 <style>
 @font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:block;
   src:url(assets/fonts/instrument-serif.woff2) format('woff2')}
@@ -451,44 +452,94 @@ button{font:inherit}
   .step{border-right:0;padding-left:4px}
 }
 
-/* ---- films ---- */
-.films{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,28px)}
-.film{display:block;color:inherit}
-.film-frame{
-  position:relative;aspect-ratio:16/10;border-radius:14px;overflow:hidden;
-  background-color:#faf5ea;background-repeat:no-repeat;background-position:center;background-size:172% auto;
-  box-shadow:0 1px 2px rgba(58,44,26,.12),0 14px 30px -12px rgba(58,44,26,.28);
-  transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s ease;
+/* ---- the watch button under the book ---- */
+.sb-watch{
+  display:inline-flex;align-items:center;gap:9px;border:0;border-radius:999px;padding:7px 16px 7px 7px;
+  background:var(--earth);color:#fff8ee;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;
+  box-shadow:0 8px 20px -8px rgba(170,50,20,.6);transition:transform .2s ease,box-shadow .2s ease;
 }
-.film:hover .film-frame{transform:translateY(-3px) rotate(-.4deg);box-shadow:0 2px 4px rgba(58,44,26,.12),0 22px 40px -14px rgba(58,44,26,.36)}
-.play{
-  position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;
-  background:var(--earth);color:#fff8ee;display:grid;place-items:center;
-  box-shadow:0 8px 20px -6px rgba(170,50,20,.55);transition:transform .25s ease;
-}
-.film:hover .play{transform:scale(1.08)}
-.play svg{width:20px;height:20px;margin-left:3px}
-.film h3{font-family:var(--display);font-weight:400;font-size:clamp(20px,1.9vw,24px);margin:14px 0 4px}
-.film p{margin:0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
-@media (max-width:760px){.films{grid-template-columns:1fr;max-width:460px}}
-.more{margin:clamp(22px,3vw,30px) 0 0;font-size:16px;color:var(--ink-soft)}
+.sb-watch:hover{transform:translateY(-1px);box-shadow:0 12px 24px -8px rgba(170,50,20,.65)}
+.sb-watch .dot{width:24px;height:24px;border-radius:50%;background:#fff8ee;color:var(--earth);display:grid;place-items:center}
+.sb-watch svg{width:10px;height:10px;margin-left:2px}
 
-/* ---- the experiment log: a table that reads like a lab notebook ---- */
-.log{list-style:none;margin:0;padding:0;border-top:1px solid var(--hairline)}
-.log-head,.log-row{display:grid;grid-template-columns:3.4em minmax(0,1.5fr) minmax(0,1fr) minmax(0,1.2fr);gap:18px;
-  align-items:baseline;padding:15px 4px;border-bottom:1px solid var(--hairline)}
-.log-head{font-size:11px;letter-spacing:var(--track-caps);text-transform:uppercase;color:var(--ink-faint);padding-block:12px}
-.log-row{width:100%;border-left:0;border-right:0;border-top:0;background:transparent;text-align:left;color:inherit;cursor:pointer;
-  transition:background-color .22s ease,padding-left .22s ease}
-.log-row:hover{background:rgba(255,252,244,.5);padding-left:12px}
-.log-row .n{font-size:12px;color:var(--ink-faint);letter-spacing:var(--track-nav)}
-.log-row .q{font-family:var(--display);font-size:clamp(19px,2vw,24px);line-height:1.25}
-.log-row .v{font-size:15px;color:var(--ink-soft);font-weight:300}
-.log-row .r{font-family:var(--hand);font-weight:500;font-size:22px;color:var(--herb);line-height:1.2}
+/* ---- the shorts wall ---- */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
+.chip{
+  border:1px solid var(--hairline);background:rgba(255,252,244,.55);border-radius:999px;padding:7px 14px;
+  font-size:13px;letter-spacing:.03em;color:var(--ink-soft);cursor:pointer;transition:background-color .2s,color .2s;
+}
+.chip:hover{color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.chip .c{opacity:.55;margin-left:5px;font-variant-numeric:tabular-nums}
+.shorts{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(14px,1.8vw,22px)}
+.short{display:block;width:100%;border:0;padding:0;background:transparent;text-align:left;color:inherit;cursor:pointer}
+.short .thumb{
+  position:relative;display:block;aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#e9dfcd;
+  box-shadow:0 1px 2px rgba(58,44,26,.12),0 14px 28px -14px rgba(58,44,26,.4);
+  transition:transform .35s cubic-bezier(.2,.7,.2,1);
+}
+.short:hover .thumb{transform:translateY(-3px) rotate(-.6deg)}
+.short img{width:100%;height:100%;object-fit:cover;display:block}
+.short .views{
+  position:absolute;left:8px;bottom:8px;font-size:11px;letter-spacing:.05em;color:#fff;
+  background:rgba(20,16,12,.55);padding:3px 8px;border-radius:999px;
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+}
+.short .play{
+  position:absolute;right:8px;top:8px;width:30px;height:30px;border-radius:50%;background:var(--earth);color:#fff8ee;
+  display:grid;place-items:center;opacity:0;transform:scale(.8);transition:opacity .2s,transform .2s;
+}
+.short:hover .play,.short:focus-visible .play{opacity:1;transform:none}
+.short .play svg{width:11px;height:11px;margin-left:2px}
+.short h3{font-family:var(--display);font-weight:400;font-size:18px;line-height:1.2;margin:10px 2px 0}
+.short p{margin:3px 2px 0;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.more-row{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;margin-top:clamp(22px,3vw,32px);font-size:16px;color:var(--ink-soft)}
+.btn-line{
+  border:1px solid var(--ink);background:transparent;border-radius:999px;padding:9px 18px;cursor:pointer;
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);transition:background-color .2s,color .2s;
+}
+.btn-line:hover{background:var(--ink);color:var(--paper)}
+.btn-line[hidden]{display:none}
+@media (max-width:1000px){.shorts{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:760px){.shorts{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.shorts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ---- the player: her short, right here ---- */
+.player{border:0;padding:0;background:transparent;max-width:none;max-height:none;overflow:visible;color:#fff8ee}
+.player::backdrop{background:rgba(30,24,18,.76);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.player-box{
+  width:min(400px,90vw,calc((100svh - 130px) * 9 / 16));aspect-ratio:9/16;border-radius:18px;overflow:hidden;background:#000;
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.6);
+}
+.player iframe{width:100%;height:100%;border:0;display:block}
+.player-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:14px;font-size:14px;max-width:min(400px,90vw)}
+.player-bar .t{font-family:var(--display);font-size:20px;line-height:1.2;flex:1}
+.player-bar a,.player-bar button{color:#fff8ee;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.player-bar a{text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(255,248,238,.4)}
+.player-bar button{border:1px solid rgba(255,248,238,.45);background:transparent;border-radius:999px;padding:7px 14px;cursor:pointer}
+
+/* ---- by the numbers ---- */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+.stat{padding:22px clamp(14px,1.6vw,22px) 24px;border-right:1px solid var(--hairline);min-width:0}
+.stat:first-child{padding-left:4px}
+.stat:last-child{border-right:0}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(36px,4.4vw,56px);line-height:1;letter-spacing:-.01em}
+.stat span{display:block;margin-top:8px;font-size:11px;letter-spacing:var(--track-caps);text-transform:uppercase;color:var(--ink-faint)}
+.series{list-style:none;margin:clamp(26px,3.4vw,40px) 0 0;padding:0;display:grid;gap:12px;max-width:720px}
+.series li{display:grid;grid-template-columns:minmax(0,11em) minmax(0,1fr);gap:16px;align-items:center}
+.series .k{font-family:var(--display);font-size:20px}
+.series .bar{position:relative;height:26px;border-radius:6px;background:rgba(43,39,33,.06)}
+.series .bar i{position:absolute;inset:0 auto 0 0;border-radius:6px;background:var(--saffron);opacity:.75}
+.series li:first-child .bar i{background:var(--earth)}
+.series .bar em{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-style:normal;font-size:13px;color:var(--ink);white-space:nowrap}
+.fine{font-family:var(--hand);font-weight:500;font-size:22px;color:var(--earth);margin:18px 0 0;transform:rotate(-1.5deg);display:inline-block}
 @media (max-width:760px){
-  .log-head{display:none}
-  .log-row{grid-template-columns:2.6em minmax(0,1fr);row-gap:4px}
-  .log-row .v,.log-row .r{grid-column:2}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat{border-bottom:1px solid var(--hairline)}
+  .stat:nth-child(2n){border-right:0}
+  .stat:nth-child(2n+1){padding-left:4px}
+  .stat:nth-last-child(-n+2){border-bottom:0}
+  .series li{grid-template-columns:1fr;gap:6px}
 }
 
 .plates{max-width:1080px;margin:0 auto;padding:0 clamp(20px,5vw,48px)}
@@ -504,6 +555,7 @@ button{font:inherit}
 .plate .t{font-family:var(--display);font-size:clamp(19px,2.1vw,26px)}
 .plate .p{font-size:12.5px;color:var(--ink-faint);letter-spacing:.08em;text-transform:uppercase;text-align:right}
 .plate[aria-current="true"] .p{color:var(--earth)}
+@media (max-width:520px){.plate{grid-template-columns:2.2em minmax(0,1fr) auto;gap:12px}.plate .p{font-size:10px;letter-spacing:.06em;max-width:9em}}
 
 .foot{font-size:11.5px;letter-spacing:var(--track-caps);text-transform:uppercase;
   color:var(--ink-faint);text-align:center;padding:0 16px 14px;margin:0}
@@ -518,13 +570,13 @@ button{font:inherit}
   <header class="top">
     <a class="name" href="#">Lucy <i>makes</i> food</a>
     <nav>
-      <a href="#plates">Techniques</a>
-      <a href="#watch">Watch</a>
+      <a href="#shorts">Shorts</a>
+      <a href="#plates">Notebook</a>
       <a href="#about">About</a>
       <div class="top-socials">
         <a href="https://www.youtube.com/@LucyMakesFood" class="icon-btn" aria-label="YouTube" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.5 7.2a2.8 2.8 0 0 0-2-2C18.7 4.7 12 4.7 12 4.7s-6.7 0-8.5.5a2.8 2.8 0 0 0-2 2C1 9 1 12 1 12s0 3 .5 4.8a2.8 2.8 0 0 0 2 2c1.8.5 8.5.5 8.5.5s6.7 0 8.5-.5a2.8 2.8 0 0 0 2-2c.5-1.8.5-4.8.5-4.8s0-3-.5-4.8ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a>
         <a href="https://www.instagram.com/lucymakesfood/" class="icon-btn" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg></a>
-        <a href="#contact" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.4" y="4.6" width="19.2" height="14.8" rx="2.4"/><path d="m3.2 6.4 8.8 6.6 8.8-6.6"/></svg></a>
+        <a href="mailto:foodmakeslucy@gmail.com" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.4" y="4.6" width="19.2" height="14.8" rx="2.4"/><path d="m3.2 6.4 8.8 6.6 8.8-6.6"/></svg></a>
       </div>
     </nav>
   </header>
@@ -533,7 +585,7 @@ button{font:inherit}
     <img class="botany l" src="assets/botany-left.png" alt="" aria-hidden="true">
     <img class="botany r" src="assets/botany-right.png" alt="" aria-hidden="true">
 
-    <p class="hero-kicker">Techniques, <em>not</em> recipes · cooked by feel, checked by data</p>
+    <p class="hero-kicker">A World Cup of dinners · snacks from <em>scratch</em> · a little kitchen chaos</p>
 
     <div class="sb-wrap" id="sbWrap">
       <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -559,6 +611,7 @@ button{font:inherit}
         </button>
       </div>
       <div class="sb-captions" id="sbCaptions"></div>
+      <button class="sb-watch" id="sbWatch"><span class="dot"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 3.5v13l11-6.5z"/></svg></span>Watch this short</button>
       <div class="sb-tools" role="group" aria-label="view controls">
         <button class="tool" id="zOut" aria-label="zoom out"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.6" cy="8.6" r="5.6"/><path d="M12.8 12.8 17.4 17.4M6.2 8.6h4.8"/></svg></button>
         <span class="zoom-read" id="zRead">100%</span>
@@ -582,55 +635,66 @@ button{font:inherit}
   <section id="about" class="about">
     <div>
       <p class="section-label">About</p>
-      <p class="bio">Lucy is a data analyst who cooks the way she works: start with a hunch, change one thing, taste, and write down what happened. She doesn't really do recipes. She teaches the <a class="bio-link" href="#plates">techniques underneath them</a> — the sear, the emulsion, the balance of a dish — so you can open any fridge and make something good out of whatever's in it.</p>
-      <p class="bio">This notebook is where the experiments live: the ones that worked, the ones that didn't, and what changed in between. It's also the start of something bigger, as Lucy turns a kitchen habit into a <a class="bio-link" href="https://www.youtube.com/@LucyMakesFood" target="_blank" rel="noopener">full-time thing</a>.</p>
-      <span class="note">less measuring, more noticing.</span>
+      <p class="bio">“I'm Lucy and I make food.” That's her whole channel description, and it undersells it. Lucy is cooking a <a class="bio-link" href="#shorts" data-filter="world">national dish for every World Cup country</a>, rebuilding favourites <a class="bio-link" href="#shorts" data-filter="scratch">from scratch</a> — Cheez-Its, soda, cultured butter, yogurt that never runs out — and letting the occasional bit of kitchen chaos with her husband roll.</p>
+      <p class="bio">She's a data analyst by training, so this notebook does what she would: it sketches the method behind the shorts, and keeps an eye on <a class="bio-link" href="#numbers">the numbers</a>.</p>
+      <span class="note">fast, funny, and actually cookable.</span>
     </div>
     <img class="bloom" src="assets/bloom.png" alt="" aria-hidden="true">
   </section>
 
   <div class="rule short" aria-hidden="true"></div>
 
+  <section id="shorts" class="wrap">
+    <p class="section-label">Shorts</p>
+    <h2 class="section-title">Press play, <i>then</i> go cook.</h2>
+    <div class="chips" id="chips" role="group" aria-label="filter shorts"></div>
+    <ol class="shorts" id="shortList"></ol>
+    <div class="more-row">
+      <button class="btn-line" id="moreShorts" hidden>Show all</button>
+      <span>Every short lives on <a class="bio-link" href="https://www.youtube.com/@LucyMakesFood/shorts" target="_blank" rel="noopener">YouTube</a> and <a class="bio-link" href="https://www.instagram.com/lucymakesfood/" target="_blank" rel="noopener">Instagram</a>.</span>
+    </div>
+  </section>
+
+  <div class="rule short" aria-hidden="true"></div>
+
   <section id="how" class="wrap">
-    <p class="section-label">How to use this notebook</p>
-    <h2 class="section-title">Learn the move, <i>then</i> make it yours.</h2>
+    <p class="section-label">How she makes them</p>
+    <h2 class="section-title">Anatomy of a <i>Lucy</i> short.</h2>
     <ol class="steps">
-      <li class="step"><span class="n">01</span><h3>Learn the move</h3><p>Every plate is one technique, not one dish. Learn it once and it works in a hundred meals.</p></li>
-      <li class="step"><span class="n">02</span><h3>Watch it done</h3><p>Short films show what “shimmering oil” and “coats a spoon” actually look like in real life.</p></li>
-      <li class="step"><span class="n">03</span><h3>Raid your fridge</h3><p>Swap in what you've got. The technique holds; the ingredients are entirely up to you.</p></li>
-      <li class="step"><span class="n">04</span><h3>Log your experiment</h3><p>Change one thing, taste, write it down. That's how you get better without a recipe.</p></li>
+      <li class="step"><span class="n">0:00</span><h3>The hook</h3><p>A title you can't scroll past: “this cake cost HOW MUCH???”, “all my friends lied to me”.</p></li>
+      <li class="step"><span class="n">0:03</span><h3>The cook</h3><p>The whole method, start to finish, in well under a minute. No fluff, no life story.</p></li>
+      <li class="step"><span class="n">0:20</span><h3>The taste</h3><p>The first bite and the verdict — the part everyone actually waits for.</p></li>
+      <li class="step"><span class="n">after</span><h3>The recipe</h3><p>When there's one to share, it's waiting in the description, ready to cook tonight.</p></li>
     </ol>
   </section>
 
   <div class="rule short" aria-hidden="true"></div>
 
-  <section id="watch" class="wrap">
-    <p class="section-label">Watch</p>
-    <h2 class="section-title">Techniques, <i>on film.</i></h2>
-    <div class="films" id="films"></div>
-    <p class="more"><a class="bio-link" href="https://www.youtube.com/@LucyMakesFood" target="_blank" rel="noopener">Watch Lucy on YouTube</a> <span aria-hidden="true">→</span></p>
-  </section>
-
-  <div class="rule short" aria-hidden="true"></div>
-
-  <section id="log" class="wrap">
-    <p class="section-label">Experiment log</p>
-    <h2 class="section-title">One variable at a time.</h2>
-    <div class="log-head" aria-hidden="true"><span>No.</span><span>Question</span><span>Changed</span><span>Verdict</span></div>
-    <ol class="log" id="logList"></ol>
+  <section id="numbers" class="wrap">
+    <p class="section-label">By the numbers</p>
+    <h2 class="section-title">The analyst's <i>corner.</i></h2>
+    <div class="stats" id="stats"></div>
+    <ul class="series" id="series" aria-label="average views per short, by series"></ul>
+    <span class="fine" id="insight"></span>
   </section>
 
   <div class="rule short" aria-hidden="true"></div>
 
   <section id="plates" class="plates">
-    <p class="section-label">The techniques</p>
+
+    <p class="section-label">The notebook</p>
     <ol class="plate-list" id="plateList"></ol>
   </section>
 
   <div class="rule short" aria-hidden="true"></div>
-  <p class="foot" id="contact"><a href="https://www.youtube.com/@LucyMakesFood" class="bio-link" target="_blank" rel="noopener">YouTube</a> · <a href="https://www.instagram.com/lucymakesfood/" class="bio-link" target="_blank" rel="noopener">Instagram</a> · Techniques · Experiments</p>
-  <p class="credit">a concept notebook, sketched for Lucy by Mohammed Farazuddin · sample content</p>
+  <p class="foot" id="contact"><a href="mailto:foodmakeslucy@gmail.com" class="bio-link">foodmakeslucy@gmail.com</a> · <a href="https://www.youtube.com/@LucyMakesFood" class="bio-link" target="_blank" rel="noopener">YouTube</a> · <a href="https://www.instagram.com/lucymakesfood/" class="bio-link" target="_blank" rel="noopener">Instagram</a></p>
+  <p class="credit">a concept site, sketched for Lucy by Mohammed Farazuddin · videos © Lucy Makes Food</p>
 </main>
+
+<dialog class="player" id="player" aria-label="Lucy's short">
+  <div class="player-box"><iframe id="playerFrame" title="YouTube short" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+  <div class="player-bar"><span class="t" id="playerTitle"></span><a id="playerLink" href="#" target="_blank" rel="noopener">YouTube</a><button id="playerClose">Close</button></div>
+</dialog>
 
 <script>
 /* =====================================================================
@@ -643,31 +707,18 @@ button{font:inherit}
 const Q=new URLSearchParams(location.search);
 const DIR='assets/plates/';
 const PAGES=[
-  {file:'onion.webp',         title:'The Onion, Four Ways',    place:'Knife work'},
-  {file:'sear.webp',          title:'The Sear',                place:'Heat'},
-  {file:'vinaigrette.webp',   title:'Vinaigrette by Ratio',    place:'Emulsion'},
-  {file:'pan-sauce.webp',     title:'The Pan Sauce',           place:'Sauce'},
-  {file:'fridge-raid.webp',   title:'The Fridge Raid',         place:'Improvisation'},
-  {file:'egg-clock.webp',     title:'The Egg Clock',           place:'Timing'},
-  {file:'balance.webp',       title:'Balancing a Dish',        place:'Seasoning'},
-  {file:'hydration.webp',     title:'Dough by Hydration',      place:'Baking'},
-  {file:'roast-carrots.webp', title:'Roast Carrots, Two Ways', place:'Experiment'}
+  {file:'cheez-its.webp',       title:'Homemade Cheez-Its',         place:'Made from scratch',  video:'76_v0Wfc-Io'},
+  {file:'cola-chicken.webp',    title:'Coca-Cola Chicken',          place:'Made from scratch',  video:'oHmcYG3QP08'},
+  {file:'yogurt.webp',          title:'The Infinite Yogurt Glitch', place:'Made from scratch',  video:'qL_7IE5BGEE'},
+  {file:'rosti.webp',           title:'Rösti',                      place:'Switzerland',        video:'-k57JlfRdZ4'},
+  {file:'plov.webp',            title:'Uzbek Plov',                 place:'Uzbekistan',         video:'FcAR9U8nRZ0'},
+  {file:'cultured-butter.webp', title:'Cultured Butter at Home',    place:'Made from scratch',  video:'ZCebgB4cR3w'},
+  {file:'anatomy.webp',         title:'Anatomy of a Lucy Short',    place:'How she makes them', video:'T87X5G82-EY'},
+  {file:'world-cup.webp',       title:'A World Cup of Dinners',     place:'World Cup kitchen',  video:'fz4bPEH_SH8'},
+  {file:'numbers.webp',         title:'Lucy, by the Numbers',       place:'By the numbers',     video:'aqHUf6kxWk4'}
 ];
 PAGES.forEach(p=>p.url=DIR+p.file);
 const M=PAGES.length, LAND=6;
-
-/* films and experiments point back into the notebook by plate number */
-const FILMS=[
-  {plate:0, title:'The onion, four ways', meta:'Knife work · film coming soon'},
-  {plate:1, title:'Why you wait for the sear', meta:'Heat · film coming soon'},
-  {plate:4, title:'Tuesday fridge raid', meta:'Improvisation · film coming soon'}
-];
-const LOG=[
-  {plate:8, q:'Does a hotter oven make sweeter carrots?', v:'Oven 200 → 230°C', r:'yes — but cut them thicker'},
-  {plate:5, q:'How long for a properly jammy egg?',      v:'Boil time 6 → 10 min', r:'7 minutes, then ice'},
-  {plate:2, q:'Is 3 : 1 always the right vinaigrette?',  v:'Oil-to-acid ratio', r:'start at 3 : 1, then taste'},
-  {plate:6, q:'What fixes a flat soup fastest?',         v:'Salt vs. acid', r:'acid, nearly every time'}
-];
 
 const wrap=document.getElementById('sbWrap');
 const stage=document.getElementById('sbStage');
@@ -971,6 +1022,7 @@ addEventListener('keydown',e=>{
   if(e.metaKey||e.ctrlKey||e.altKey)return;
   const t=e.target;
   if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
+  if(player.open)return;
   e.preventDefault();hideHint();
   step(e.key==='ArrowRight'?'next':'prev');
 });
@@ -1123,33 +1175,94 @@ function marks(){
   plateList.querySelectorAll('.plate').forEach((b,i)=>b.setAttribute('aria-current',i===cur?'true':'false'));
 }
 
-/* films: the plate itself is the thumbnail until the real footage lands */
-const films=document.getElementById('films');
-FILMS.forEach(f=>{
-  const a=el('a','film');a.href='#';
-  const frame=el('div','film-frame');
-  frame.style.backgroundImage='url('+PAGES[f.plate].url+')';
-  frame.innerHTML='<span class="play"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 3.5v13l11-6.5z"/></svg></span>';
-  const h=el('h3');h.textContent=f.title;
-  const m=el('p');m.textContent=f.meta;
-  a.appendChild(frame);a.appendChild(h);a.appendChild(m);films.appendChild(a);
+/* ------------------------------------------------- her shorts, inline */
+const player=document.getElementById('player');
+const playerFrame=document.getElementById('playerFrame');
+function play(id,title){
+  playerFrame.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&playsinline=1&rel=0';
+  document.getElementById('playerTitle').textContent=title;
+  document.getElementById('playerLink').href='https://www.youtube.com/shorts/'+id;
+  player.showModal();
+}
+player.addEventListener('close',()=>{playerFrame.src='about:blank';});
+player.addEventListener('click',e=>{if(e.target===player)player.close();});
+document.getElementById('playerClose').onclick=()=>player.close();
+document.getElementById('sbWatch').onclick=()=>{
+  const p=PAGES[turn?turn.to:idx];play(p.video,p.title);
+};
+
+const SERIES={world:'World Cup kitchen',scratch:'Made from scratch',life:'Lucy being Lucy'};
+const fmt=n=>n>=1e6?(n/1e6).toFixed(1).replace(/\.0$/,'')+'M':n>=1e5?Math.round(n/1e3)+'K':n>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'K':String(n);
+const shortList=document.getElementById('shortList'), chips=document.getElementById('chips'), moreBtn=document.getElementById('moreShorts');
+let SHORTS=[], filter='all', showAll=false;
+function renderShorts(){
+  const list=SHORTS.filter(s=>filter==='all'||s.cat===filter);
+  const shown=showAll?list:list.slice(0,12);
+  shortList.textContent='';
+  shown.forEach(s=>{
+    const li=el('li'), b=el('button','short');
+    b.innerHTML='<span class="thumb"><img loading="lazy" alt=""><span class="views"></span>'+
+      '<span class="play"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 3.5v13l11-6.5z"/></svg></span></span><h3></h3><p></p>';
+    const im=b.querySelector('img');
+    /* the tall Shorts thumbnail, or the standard one if a short has none */
+    im.onerror=()=>{im.onerror=null;im.src='https://i.ytimg.com/vi/'+s.id+'/hq720.jpg';};
+    im.src='https://i.ytimg.com/vi/'+s.id+'/oar2.jpg';
+    b.querySelector('.views').textContent=fmt(s.views)+' views';
+    b.querySelector('h3').textContent=s.title;
+    b.querySelector('p').textContent=SERIES[s.cat];
+    b.onclick=()=>play(s.id,s.title);
+    li.appendChild(b);shortList.appendChild(li);
+  });
+  moreBtn.hidden=list.length<=12;
+  moreBtn.textContent=showAll?'Show fewer':'Show all '+list.length;
+  chips.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.f===filter)));
+}
+function setFilter(f){filter=f;showAll=false;renderShorts();}
+moreBtn.onclick=()=>{showAll=!showAll;renderShorts();};
+document.querySelectorAll('[data-filter]').forEach(a=>a.addEventListener('click',()=>setFilter(a.dataset.filter)));
+
+function renderNumbers(doc){
+  const top=SHORTS.reduce((a,b)=>b.views>a.views?b:a);
+  const tiles=[[fmt(doc.stats.subscribers),'subscribers'],[String(doc.stats.videos),'videos'],
+    [fmt(doc.stats.views),'total views'],[fmt(top.views),'top short · “'+top.title+'”']];
+  const stats=document.getElementById('stats');
+  tiles.forEach(([n,l])=>{
+    const d=el('div','stat');d.innerHTML='<b></b><span></span>';
+    d.querySelector('b').textContent=n;d.querySelector('span').textContent=l;stats.appendChild(d);
+  });
+  /* average views per short, by series — the chart she'd make herself */
+  const avg=Object.keys(SERIES).map(k=>{
+    const xs=SHORTS.filter(s=>s.cat===k);
+    return {k:k,n:xs.length,v:xs.reduce((a,s)=>a+s.views,0)/xs.length};
+  }).sort((a,b)=>b.v-a.v);
+  const series=document.getElementById('series');
+  avg.forEach(a=>{
+    const li=el('li');li.innerHTML='<span class="k"></span><span class="bar"><i></i><em></em></span>';
+    li.querySelector('.k').textContent=SERIES[a.k];
+    li.querySelector('i').style.width=(a.v/avg[0].v*100).toFixed(1)+'%';
+    li.querySelector('em').textContent=fmt(Math.round(a.v))+' avg views · '+a.n+' shorts';
+    series.appendChild(li);
+  });
+  const when=new Date(doc.updated+'T12:00:00').toLocaleDateString('en-US',{month:'long',year:'numeric'}).toLowerCase();
+  document.getElementById('insight').textContent='“'+SERIES[avg[0].k].toLowerCase()+'” pulls '+(avg[0].v/avg[avg.length-1].v).toFixed(1)+
+    '× the views of “'+SERIES[avg[avg.length-1].k].toLowerCase()+'” · as of '+when;
+}
+
+fetch('data/shorts.json').then(r=>r.json()).then(doc=>{
+  SHORTS=doc.shorts;
+  const counts={all:SHORTS.length};
+  SHORTS.forEach(s=>counts[s.cat]=(counts[s.cat]||0)+1);
+  [['all','All shorts']].concat(Object.entries(SERIES)).forEach(([f,label])=>{
+    const c=el('button','chip');c.dataset.f=f;c.innerHTML='<span></span><span class="c"></span>';
+    c.firstChild.textContent=label;c.lastChild.textContent=counts[f]||0;
+    c.onclick=()=>setFilter(f);chips.appendChild(c);
+  });
+  renderShorts();renderNumbers(doc);
+}).catch(()=>{
+  shortList.innerHTML='<li><a class="bio-link" href="https://www.youtube.com/@LucyMakesFood/shorts">Watch her shorts on YouTube</a></li>';
 });
 
-/* the experiment log opens the plate each entry was written on */
-const logList=document.getElementById('logList');
-LOG.forEach(x=>{
-  const li=el('li');
-  const b=el('button','log-row');
-  b.innerHTML='<span class="n"></span><span class="q"></span><span class="v"></span><span class="r"></span>';
-  b.querySelector('.n').textContent=String(x.plate+1).padStart(2,'0');
-  b.querySelector('.q').textContent=x.q;
-  b.querySelector('.v').textContent=x.v;
-  b.querySelector('.r').textContent=x.r;
-  b.onclick=()=>openPlate(x.plate);
-  li.appendChild(b);logList.appendChild(li);
-});
 
-/* ---------------------------------------------------------- the riffle */
 let riffle=null,riffleAt=0,introOn=false;
 function endIntro(){
   introOn=false;wrap.classList.remove('intro','b2');

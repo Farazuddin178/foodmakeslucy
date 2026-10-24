@@ -1,30 +1,34 @@
-# Lucy Makes Food — a technique notebook
+# Lucy Makes Food — her shorts, in a sketchbook
 
-A concept site for Lucy: a data analyst turned food creator who teaches **techniques, not recipes**.
-The whole homepage is an open sketchbook. Visitors turn real curling pages, drag a magnifying glass
-across the notes, and jump between techniques from an index. Everything is plain HTML, CSS and JS,
+A concept site for [Lucy Makes Food](https://www.youtube.com/@LucyMakesFood): a national dish for every
+World Cup country, favourites rebuilt from scratch, and a little kitchen chaos. The homepage is an open
+sketchbook. Each plate is drawn from one of her shorts, turns like real paper, and has a
+**Watch this short** button that plays the video in place. Everything is plain HTML, CSS and JS,
 with no build step.
 
 ## Site structure
 
 | Section | What it does |
 | --- | --- |
-| **Sketchbook hero** | Nine illustrated technique plates: drag to turn, a loupe to read the handwriting, zoom, keyboard arrows |
-| **About** | Lucy's approach: hunch → change one thing → taste → write it down |
-| **How to use this notebook** | The visitor journey: learn the move → watch it → raid your fridge → log your experiment |
-| **Watch** | Film cards, one per technique (the plate is the thumbnail until real footage replaces it) |
-| **Experiment log** | One-variable kitchen tests laid out like a lab notebook. Each row opens its plate |
-| **The techniques** | The full plate index |
+| **Sketchbook** | Nine plates: three of her own recipes (Cheez-Its, Coca-Cola chicken, infinite yogurt), World Cup and from-scratch methods, anatomy of a short, her World Cup passport, the numbers |
+| **About** | Her own line, “I'm Lucy and I make food”, and the three series |
+| **Shorts** | All 48 recent shorts with real thumbnails, filterable by series, playing in an embedded player |
+| **How she makes them** | Hook → cook → taste → recipe |
+| **By the numbers** | Channel stats, plus average views per series, computed live from the data |
+| **The notebook** | Index of the plates |
 
-## Editing content
+## Data
 
-All content lives in the `<script>` at the bottom of `index.html`:
+`data/shorts.json` holds every short (id, title, views, series) and the channel stats. To refresh
+titles and view counts from YouTube:
 
-- `PAGES`: the plates (file, title, category)
-- `FILMS`: film cards. Point `href` at YouTube or Instagram when the videos are live
-- `LOG`: experiment-log rows
+```bash
+python tools/fetch_shorts.py
+```
 
-YouTube and Instagram link to [@LucyMakesFood](https://www.youtube.com/@LucyMakesFood) and [@lucymakesfood](https://www.instagram.com/lucymakesfood/). The film cards are `#` until technique films exist.
+Series are kept per short: `world` (World Cup kitchen), `scratch` (Made from scratch),
+`life` (Lucy being Lucy). New shorts arrive as `life` until they're filed. The channel stats
+(subscribers, videos, total views) are updated by hand.
 
 ## Redrawing the plates
 
@@ -53,6 +57,6 @@ analytical and creative work is the brand.
 
 ## Credits
 
-Sketchbook interaction adapted from ThreeUI's *Meng To Sketchbook* landing page. The paper wash,
+Videos and thumbnails © Lucy Makes Food, embedded from YouTube. Sketchbook interaction adapted from ThreeUI's *Meng To Sketchbook* landing page. The paper wash,
 botanicals, divider, and the Instrument Serif and Newsreader fonts come from that package. The food
 plates are original to this project. Caveat font: SIL Open Font License.
