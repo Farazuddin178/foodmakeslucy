@@ -1,5 +1,5 @@
 /* =====================================================================
-   Food Makes Lucy — sketchbook plates.
+   Lucy Makes Food — sketchbook plates.
    Each plate is an open notebook spread drawn as SVG (ink lines run
    through a wobble filter, colour goes down as granulating washes) and
    rasterised by headless Chrome to a 1760×1240 transparent PNG — the

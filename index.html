@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Food Makes Lucy — techniques, not recipes</title>
+<title>Lucy Makes Food — techniques, not recipes</title>
+<meta name="robots" content="noindex, nofollow">
 <meta name="description" content="A cooking notebook by Lucy: kitchen techniques you can improvise with, tested like a data analyst would.">
-<meta property="og:title" content="Food Makes Lucy — techniques, not recipes">
+<meta property="og:title" content="Lucy Makes Food — techniques, not recipes">
 <meta property="og:description" content="Learn the move, not the measurements. A sketchbook of kitchen techniques and experiments.">
 <meta property="og:image" content="assets/plates/balance.webp">
 <meta name="theme-color" content="#f5eee1">
@@ -470,6 +471,7 @@ button{font:inherit}
 .film h3{font-family:var(--display);font-weight:400;font-size:clamp(20px,1.9vw,24px);margin:14px 0 4px}
 .film p{margin:0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
 @media (max-width:760px){.films{grid-template-columns:1fr;max-width:460px}}
+.more{margin:clamp(22px,3vw,30px) 0 0;font-size:16px;color:var(--ink-soft)}
 
 /* ---- the experiment log: a table that reads like a lab notebook ---- */
 .log{list-style:none;margin:0;padding:0;border-top:1px solid var(--hairline)}
@@ -514,15 +516,14 @@ button{font:inherit}
 <main class="page home">
 
   <header class="top">
-    <a class="name" href="#">Food <i>makes</i> Lucy</a>
+    <a class="name" href="#">Lucy <i>makes</i> food</a>
     <nav>
       <a href="#plates">Techniques</a>
       <a href="#watch">Watch</a>
       <a href="#about">About</a>
       <div class="top-socials">
-        <!-- swap these # for Lucy's real profiles -->
-        <a href="#" class="icon-btn" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.5 7.2a2.8 2.8 0 0 0-2-2C18.7 4.7 12 4.7 12 4.7s-6.7 0-8.5.5a2.8 2.8 0 0 0-2 2C1 9 1 12 1 12s0 3 .5 4.8a2.8 2.8 0 0 0 2 2c1.8.5 8.5.5 8.5.5s6.7 0 8.5-.5a2.8 2.8 0 0 0 2-2c.5-1.8.5-4.8.5-4.8s0-3-.5-4.8ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a>
-        <a href="#" class="icon-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://www.youtube.com/@LucyMakesFood" class="icon-btn" aria-label="YouTube" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.5 7.2a2.8 2.8 0 0 0-2-2C18.7 4.7 12 4.7 12 4.7s-6.7 0-8.5.5a2.8 2.8 0 0 0-2 2C1 9 1 12 1 12s0 3 .5 4.8a2.8 2.8 0 0 0 2 2c1.8.5 8.5.5 8.5.5s6.7 0 8.5-.5a2.8 2.8 0 0 0 2-2c.5-1.8.5-4.8.5-4.8s0-3-.5-4.8ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a>
+        <a href="https://www.instagram.com/lucymakesfood/" class="icon-btn" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg></a>
         <a href="#contact" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.4" y="4.6" width="19.2" height="14.8" rx="2.4"/><path d="m3.2 6.4 8.8 6.6 8.8-6.6"/></svg></a>
       </div>
     </nav>
@@ -536,7 +537,7 @@ button{font:inherit}
 
     <div class="sb-wrap" id="sbWrap">
       <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-        <filter id="sb-mblur-1"><feGaussianBlur stdDeviation="5 0"/></filter>
+        <filter id="sb-mblur-1"><feGaussianBlur stdDeviation="1.5 0"/></filter>
         <filter id="sb-mblur-2"><feGaussianBlur stdDeviation="14 0"/></filter>
       </svg>
       <div class="sb-stage" id="sbStage">
@@ -582,7 +583,7 @@ button{font:inherit}
     <div>
       <p class="section-label">About</p>
       <p class="bio">Lucy is a data analyst who cooks the way she works: start with a hunch, change one thing, taste, and write down what happened. She doesn't really do recipes. She teaches the <a class="bio-link" href="#plates">techniques underneath them</a> — the sear, the emulsion, the balance of a dish — so you can open any fridge and make something good out of whatever's in it.</p>
-      <p class="bio">This notebook is where the experiments live: the ones that worked, the ones that didn't, and what changed in between. It's also the start of something bigger, as Lucy turns a kitchen habit into a <a class="bio-link" href="#watch">full-time thing</a>.</p>
+      <p class="bio">This notebook is where the experiments live: the ones that worked, the ones that didn't, and what changed in between. It's also the start of something bigger, as Lucy turns a kitchen habit into a <a class="bio-link" href="https://www.youtube.com/@LucyMakesFood" target="_blank" rel="noopener">full-time thing</a>.</p>
       <span class="note">less measuring, more noticing.</span>
     </div>
     <img class="bloom" src="assets/bloom.png" alt="" aria-hidden="true">
@@ -607,6 +608,7 @@ button{font:inherit}
     <p class="section-label">Watch</p>
     <h2 class="section-title">Techniques, <i>on film.</i></h2>
     <div class="films" id="films"></div>
+    <p class="more"><a class="bio-link" href="https://www.youtube.com/@LucyMakesFood" target="_blank" rel="noopener">Watch Lucy on YouTube</a> <span aria-hidden="true">→</span></p>
   </section>
 
   <div class="rule short" aria-hidden="true"></div>
@@ -626,13 +628,13 @@ button{font:inherit}
   </section>
 
   <div class="rule short" aria-hidden="true"></div>
-  <p class="foot" id="contact">Techniques · Experiments · Notes · <a href="#" class="bio-link">Say hello</a></p>
+  <p class="foot" id="contact"><a href="https://www.youtube.com/@LucyMakesFood" class="bio-link" target="_blank" rel="noopener">YouTube</a> · <a href="https://www.instagram.com/lucymakesfood/" class="bio-link" target="_blank" rel="noopener">Instagram</a> · Techniques · Experiments</p>
   <p class="credit">a concept notebook, sketched for Lucy by Mohammed Farazuddin · sample content</p>
 </main>
 
 <script>
 /* =====================================================================
-   Food Makes Lucy — sketchbook hero.
+   Lucy Makes Food — sketchbook hero.
    Spreads are transparent PNGs of an open notebook, drawn by
    tools/make-plates.mjs.  The leaf that turns is a real curved surface:
    a chain of nested strips whose tangent sweeps through an arc, so the
@@ -941,12 +943,12 @@ function startTurn(dir,t){
 function commit(){
   if(!turn)return;
   if(REDUCED){idx=turn.to;turn=null;paint();return;}
-  animateTo(1,()=>{idx=turn.to;turn=null;paint();},170,26);
+  animateTo(1,()=>{idx=turn.to;turn=null;paint();},64,16);
   kick();
 }
 function cancel(){
   if(!turn)return;
-  animateTo(0,()=>{turn=null;paint();},150,24);
+  animateTo(0,()=>{turn=null;paint();},64,16);
   kick();
 }
 function step(dir){
@@ -1154,7 +1156,6 @@ function endIntro(){
 }
 function riffleStep(){
   const s=riffle[riffleAt];
-  wrap.classList.toggle('b2',s.bell>0.55);
   startTurn('next',0);
   tweenTo(1,s.dur,()=>{
     idx=turn.to;turn=null;
@@ -1166,11 +1167,11 @@ function riffleStep(){
 function startIntro(){
   const coarse=matchMedia('(max-width: 640px), (pointer: coarse)').matches;
   if(coarse||REDUCED||Q.has('nointro')){idx=LAND;paint();return;}
-  const steps=M+LAND;
+  const steps=LAND;
   riffle=[];
   for(let r=0;r<steps;r++){
     const bell=Math.sin(Math.PI*(r/(steps-1)));
-    riffle.push({bell:bell,dur:0.26-0.19*bell});
+    riffle.push({bell:bell,dur:0.8-0.32*bell});
   }
   riffleAt=0;introOn=true;wrap.classList.add('intro');
   riffleStep();

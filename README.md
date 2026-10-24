@@ -1,4 +1,4 @@
-# Food Makes Lucy — a technique notebook
+# Lucy Makes Food — a technique notebook
 
 A concept site for Lucy: a data analyst turned food creator who teaches **techniques, not recipes**.
 The whole homepage is an open sketchbook. Visitors turn real curling pages, drag a magnifying glass
@@ -24,7 +24,7 @@ All content lives in the `<script>` at the bottom of `index.html`:
 - `FILMS`: film cards. Point `href` at YouTube or Instagram when the videos are live
 - `LOG`: experiment-log rows
 
-Social links in the header and the "Say hello" link are `#` placeholders.
+YouTube and Instagram link to [@LucyMakesFood](https://www.youtube.com/@LucyMakesFood) and [@lucymakesfood](https://www.instagram.com/lucymakesfood/). The film cards are `#` until technique films exist.
 
 ## Redrawing the plates
 
